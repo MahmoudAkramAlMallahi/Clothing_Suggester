@@ -1,25 +1,25 @@
 package com.example.clothingsuggester.presenter
 
-import com.example.clothingsuggester.data.remove.WeatherServiceImpl
-import com.example.clothingsuggester.domain.model.NationalResponse
+import com.example.clothingsuggester.data.remote.WeatherServiceImpl
+import com.example.clothingsuggester.model.WeatherResponse
+import java.io.IOException
 
 class MainPresenter(private var iMainView: IMainView) {
 
     private val weatherServiceImpl = WeatherServiceImpl()
 
-    fun getCurrentWeatherState() =
-        weatherServiceImpl.getCurrentWeatherStatue(::onGetResponse, ::onGetFailure)
+    fun getCurrentWeatherStatus() =
+        weatherServiceImpl.getCurrentWeatherStatus(
+            ::onGetCurrentWeatherStatusSuccess,
+            ::onGetCurrentWeatherStatusFailure
+        )
 
 
-    private fun onGetResponse(weatherResponse: NationalResponse) =
-        iMainView.onGetWeatherState(weatherResponse)
+    private fun onGetCurrentWeatherStatusSuccess(weatherResponse: WeatherResponse) =
+        iMainView.getCurrentWeatherStatusSuccess(weatherResponse)
 
 
-    private fun onGetFailure(message: String) = iMainView.onGetFailure(message)
+    private fun onGetCurrentWeatherStatusFailure(message: IOException) =
+        iMainView.getCurrentWeatherStatusFailure(message)
 
-}
-
-interface IMainView {
-    fun onGetWeatherState(weatherResponse: NationalResponse)
-    fun onGetFailure(message: String)
 }

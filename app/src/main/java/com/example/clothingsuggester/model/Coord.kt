@@ -1,4 +1,4 @@
-package com.example.clothingsuggester.domain.model
+package com.example.clothingsuggester.model
 
 data class Coord(
     val lon: Double,

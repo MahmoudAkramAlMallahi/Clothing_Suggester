@@ -1,6 +1,6 @@
-package com.example.clothingsuggester.domain.model
+package com.example.clothingsuggester.model
 
-data class NationalResponse(
+data class WeatherResponse(
     val coord: Coord,
     val weather: List<Weather>,
     val base: String,

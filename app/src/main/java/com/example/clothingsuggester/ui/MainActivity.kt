@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clothingsuggester.databinding.ActivityMainBinding
-import com.example.clothingsuggester.domain.model.NationalResponse
+import com.example.clothingsuggester.model.WeatherResponse
 import com.example.clothingsuggester.presenter.IMainView
 import com.example.clothingsuggester.presenter.MainPresenter
 import com.example.clothingsuggester.until.chooseOutfitImage
@@ -13,6 +13,7 @@ import com.example.clothingsuggester.until.getAllImageCrews
 import com.example.clothingsuggester.until.showViewOnFailureStatue
 import com.example.clothingsuggester.until.showViewOnResponseStatue
 import com.orhanobut.hawk.Hawk
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), IMainView {
@@ -23,14 +24,14 @@ class MainActivity : AppCompatActivity(), IMainView {
         setContentView(binding.root)
 
         val presenter = MainPresenter(this)
-        presenter.getCurrentWeatherState()
+        presenter.getCurrentWeatherStatus()
 
         Hawk.init(this).build()
 
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onGetWeatherState(weatherResponse: NationalResponse) {
+    override fun getCurrentWeatherStatusSuccess(weatherResponse: WeatherResponse) {
         val iconDescription = weatherResponse.weather[0].icon
         val temp = weatherResponse.main.temp
         val imagesCrews = getAllImageCrews()
@@ -44,9 +45,9 @@ class MainActivity : AppCompatActivity(), IMainView {
     }
 
 
-    override fun onGetFailure(message: String) {
+    override fun getCurrentWeatherStatusFailure(message: IOException) {
         runOnUiThread {
-            showViewOnFailureStatue(message, binding)
+            showViewOnFailureStatue(message.toString(), binding)
         }
     }
 
