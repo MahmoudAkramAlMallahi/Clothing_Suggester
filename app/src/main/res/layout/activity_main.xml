@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#80B6C8D1"
     tools:context=".ui.MainActivity">
 
     <TextView
@@ -44,7 +45,6 @@
         android:layout_marginTop="@dimen/margin_4x"
         android:textColor="@color/black_87"
         android:textSize="@dimen/text_size_city_name"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Gaza" />
