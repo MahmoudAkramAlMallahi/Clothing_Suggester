@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="margin_4x">16dp</dimen>
+    <dimen name="margin_6x">24dp</dimen>
+    <dimen name="text_size_city_name">32sp</dimen>
+    <dimen name="text_size_temp">50sp</dimen>
+    <dimen name="width_height_image_description">24dp</dimen>
+    <dimen name="text_size_description">14sp</dimen>
+    <dimen name="margin_1x">4dp</dimen>
+    <dimen name="maign_12x">48dp</dimen>
+    <dimen name="margin_2x">8dp</dimen>
+    <dimen name="text_size_date">18sp</dimen>
+    <dimen name="margin_top_text_date">2dp</dimen>
+</resources>

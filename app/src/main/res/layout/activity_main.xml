@@ -7,12 +7,113 @@
     tools:context=".ui.MainActivity">
 
     <TextView
+        android:id="@+id/text_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_error_outline_24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/text_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_6x"
+        android:layout_marginTop="@dimen/margin_4x"
+        android:textColor="@color/black_87"
+        android:textSize="@dimen/text_size_city_name"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Gaza" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_text_date"
+        android:textSize="@dimen/text_size_date"
+        app:layout_constraintStart_toStartOf="@id/text_city_name"
+        app:layout_constraintTop_toBottomOf="@id/text_city_name"
+        tools:text="10 April,monday" />
+
+    <TextView
+        android:id="@+id/text_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_87"
+        android:textSize="@dimen/text_size_temp"
+        app:layout_constraintBottom_toBottomOf="@id/text_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_city_name"
+        app:layout_constraintTop_toTopOf="@id/text_city_name"
+        tools:text="24" />
+
+    <ImageView
+        android:id="@+id/image_description"
+        android:layout_width="@dimen/width_height_image_description"
+        android:layout_height="@dimen/width_height_image_description"
+        android:layout_marginTop="@dimen/margin_4x"
+        app:layout_constraintStart_toStartOf="@id/text_city_name"
+        app:layout_constraintTop_toBottomOf="@id/text_date" />
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_1x"
+        android:textColor="@color/text_description"
+        android:textSize="@dimen/text_size_description"
+        app:layout_constraintBottom_toBottomOf="@id/image_description"
+        app:layout_constraintStart_toEndOf="@id/image_description"
+        app:layout_constraintTop_toTopOf="@id/image_description"
+        tools:text="clear sky" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/maign_12x"
+        android:text="@string/text_title_static"
+        android:textColor="@color/black_60"
+        android:textSize="@dimen/text_size_title"
+        app:layout_constraintStart_toStartOf="@id/text_city_name"
+        app:layout_constraintTop_toBottomOf="@id/image_description" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_outfit"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_4x"
+        android:layout_marginTop="@dimen/margin_2x"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        app:shapeAppearanceOverlay="@style/cornerSize16Percent"
+        tools:src="@drawable/autumn_clothes_1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
