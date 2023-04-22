@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), IMainView {
         binding.textCityName.text = result.name
         binding.textDate.text = LocalDate
             .now()
-            .format(DateTimeFormatter.ofPattern("dd MMMM"))
+            .format(DateTimeFormatter.ofPattern("dd MMMM YYYY"))
             .toString()
         binding.textDescription.text = result.weather[0].description
         binding.textTemp.text = "${temp}°C"
