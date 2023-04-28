@@ -1,17 +1,19 @@
-package com.example.clothingsuggester.data.remote
+package com.example.clothingsuggester.repository
 
 import com.example.clothingsuggester.model.WeatherResponse
 import com.google.gson.Gson
-import okhttp3.*
-import java.io.IOException
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
-class WeatherServiceImpl() : WeatherService {
+class WeatherRepository() : WeatherService {
 
     private val client = OkHttpClient()
-    override fun getCurrentWeatherStatus(
-        onGetCurrentWeatherStatusSuccess: (weatherResponse: WeatherResponse) -> Unit,
-        onGetCurrentWeatherStatusFailure: (e: IOException) -> Unit
-    ) {
+
+    override fun getCurrentWeatherStatus(): Single<WeatherResponse> {
 
         val url = HttpUrl.Builder()
             .scheme(SCHEME)
@@ -25,18 +27,14 @@ class WeatherServiceImpl() : WeatherService {
             .addQueryParameter(LAT, LAT_VALUE)
             .build()
 
-        val request = Request.Builder().url(url).build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                onGetCurrentWeatherStatusFailure(e)
-            }
+        val single = Single.fromCallable {
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+            val body = response.body?.string()
+            Gson().fromJson(body, WeatherResponse::class.java)
+        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
-            override fun onResponse(call: Call, response: Response) {
-                val body = response.body?.string()
-                val weatherResponseResult = Gson().fromJson(body, WeatherResponse::class.java)
-                onGetCurrentWeatherStatusSuccess(weatherResponseResult)
-            }
-        })
+        return single
     }
 
     companion object {
