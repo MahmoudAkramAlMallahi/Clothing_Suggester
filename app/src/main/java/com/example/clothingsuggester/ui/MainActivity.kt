@@ -1,60 +1,64 @@
 package com.example.clothingsuggester.ui
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.clothingsuggester.data.local.LocalServiceImpl
 import com.example.clothingsuggester.databinding.ActivityMainBinding
 import com.example.clothingsuggester.model.WeatherResponse
-import com.example.clothingsuggester.presenter.IMainView
-import com.example.clothingsuggester.presenter.MainPresenter
+import com.example.clothingsuggester.viewModel.WeatherViewModel
 import com.orhanobut.hawk.Hawk
-import java.io.IOException
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class MainActivity : AppCompatActivity(), IMainView {
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var localServiceImpl: LocalServiceImpl
+    private val viewModel: WeatherViewModel by viewModels()
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val presenter = MainPresenter(this)
-        presenter.getCurrentWeatherStatus()
         localServiceImpl = LocalServiceImpl()
-
-
         Hawk.init(this).build()
 
+        viewModel.getCurrentWeatherStatus()
+        viewModel.weather.observe(this) {
+            it.subscribeBy(
+                onSuccess = ::getCurrentWeatherStatusSuccess,
+                onError = ::getCurrentWeatherStatusFailure
+            )
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun getCurrentWeatherStatusSuccess(weatherResponse: WeatherResponse) {
+    fun getCurrentWeatherStatusSuccess(weatherResponse: WeatherResponse) {
         val iconDescription = weatherResponse.weather[0].icon
         val temp = weatherResponse.main.temp
         val imageOutfit = localServiceImpl.chooseClothesAccordingWeatherNow(temp)
 
         localServiceImpl.saveImageInSharedPreferences(imageOutfit)
 
-        runOnUiThread {
-            showViewsInCurrentWeatherStatusSuccess(
-                weatherResponse,
-                iconDescription,
-                imageOutfit,
-                binding
-            )
-        }
+        showViewsInCurrentWeatherStatusSuccess(
+            weatherResponse,
+            iconDescription,
+            imageOutfit,
+            binding
+        )
+
     }
 
 
-    override fun getCurrentWeatherStatusFailure(message: IOException) {
+    fun getCurrentWeatherStatusFailure(message: Throwable) {
         runOnUiThread {
             showViewsInCurrentWeatherStatusFailure(message.toString(), binding)
         }
@@ -70,8 +74,6 @@ class MainActivity : AppCompatActivity(), IMainView {
         binding.textError.text = message
         binding.progressLoading.visibility = View.GONE
     }
-
-    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     fun showViewsInCurrentWeatherStatusSuccess(
         result: WeatherResponse,
